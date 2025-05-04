@@ -1,103 +1,91 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Globe, MapPin, Flag, Clock, Award, RefreshCw } from "lucide-react";
+
+export default function CountryGuessingGame() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="max-w-3xl mx-auto">
+      <Card className="bg-slate-800 border-slate-700 shadow-xl">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <Globe className="h-6 w-6 text-purple-400" />
+              <CardTitle className="text-2xl">Country Guessing Game</CardTitle>
+            </div>
+            <div className="flex items-center gap-2">
+              <Badge
+                variant="outline"
+                className="bg-slate-700 text-purple-300 flex items-center gap-1"
+              >
+                <Award className="h-3 w-3" />
+                <span>Score: {0}</span>
+              </Badge>
+              <Badge
+                variant="outline"
+                className="bg-slate-700 text-amber-300 flex items-center gap-1"
+              >
+                <Clock className="h-3 w-3" />
+                <span>{0}s</span>
+              </Badge>
+            </div>
+          </div>
+          <CardDescription className="text-slate-400">
+            Use the clues to guess the country. More clues will be revealed after incorrect guesses.
+          </CardDescription>
+        </CardHeader>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+        <CardContent className="space-y-4">
+          {/* Clues section */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-medium flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-pink-400" />
+              <span>Clues</span>
+            </h3>
+          </div>
+
+          {/* Guess input */}
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              placeholder="Enter country name..."
+              className="bg-slate-700 border-slate-600 focus-visible:ring-purple-500"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Button
+              onClick={() => {}}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+            >
+              Guess
+            </Button>
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex justify-between border-t border-slate-700 pt-4">
+          <div className="text-sm text-slate-400 flex items-center gap-1">
+            <Flag className="h-4 w-4" />
+            <span>Attempts: {0}</span>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {}}
+            className="bg-slate-700 hover:bg-slate-600 text-slate-300 border-slate-600 flex items-center gap-1"
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <RefreshCw className="h-4 w-4" />
+            New Game
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
