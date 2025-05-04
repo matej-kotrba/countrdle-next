@@ -12,8 +12,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Globe, MapPin, Flag, Clock, Award, RefreshCw } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
+import { useEffect, useState } from "react";
 
 export default function Guesser() {
+  const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
+
   return (
     <div className="max-w-3xl mx-auto">
       <Card className="bg-slate-800 border-slate-700 shadow-xl">
@@ -21,7 +25,7 @@ export default function Guesser() {
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Globe className="h-6 w-6 text-purple-400" />
-              <CardTitle className="text-2xl">Country Guessing Game</CardTitle>
+              <CardTitle className="text-2xl">Countrdle</CardTitle>
             </div>
             <div className="flex items-center gap-2">
               <Badge
@@ -60,7 +64,17 @@ export default function Guesser() {
               type="text"
               placeholder="Enter country name..."
               className="bg-slate-700 border-slate-600 focus-visible:ring-purple-500"
+              onFocus={() => setIsCountrySelectOpen(true)}
+              onBlur={() => setIsCountrySelectOpen(false)}
             />
+            <Select defaultOpen>
+              <SelectTrigger className="w-[180px]"></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                <SelectItem value="dark">Dark</SelectItem>
+                <SelectItem value="system">System</SelectItem>
+              </SelectContent>
+            </Select>
             <Button
               onClick={() => {}}
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
