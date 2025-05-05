@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -11,9 +10,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, MapPin, Flag, Clock, Award, RefreshCw } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
-import { useEffect, useState } from "react";
+import { Globe, MapPin, Flag, Clock, Award, RefreshCw, ChevronsUpDown } from "lucide-react";
+import { useState } from "react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export default function Guesser() {
   const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
@@ -60,21 +67,47 @@ export default function Guesser() {
 
           {/* Guess input */}
           <div className="flex gap-2">
-            <Input
-              type="text"
-              placeholder="Enter country name..."
-              className="bg-slate-700 border-slate-600 focus-visible:ring-purple-500"
-              onFocus={() => setIsCountrySelectOpen(true)}
-              onBlur={() => setIsCountrySelectOpen(false)}
-            />
-            <Select defaultOpen>
-              <SelectTrigger className="w-[180px]"></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
-              </SelectContent>
-            </Select>
+            <Popover open={isCountrySelectOpen} onOpenChange={setIsCountrySelectOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={isCountrySelectOpen}
+                  className="w-[200px] justify-between"
+                >
+                  {"Select framework..."}
+                  <ChevronsUpDown className="opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[200px] p-0">
+                <Command>
+                  <CommandInput placeholder="Search framework..." className="h-9" />
+                  <CommandList>
+                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandGroup>
+                      {/* {frameworks.map((framework) => (
+                        <CommandItem
+                          key={framework.value}
+                          value={framework.value}
+                          onSelect={(currentValue) => {
+                            setValue(currentValue === value ? "" : currentValue);
+                            setOpen(false);
+                          }}
+                        >
+                          {framework.label}
+                          <Check
+                            className={cn(
+                              "ml-auto",
+                              value === framework.value ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))} */}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
             <Button
               onClick={() => {}}
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
