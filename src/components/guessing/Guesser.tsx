@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Globe, MapPin, Flag, Clock, Award, RefreshCw, ChevronsUpDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import {
   Command,
   CommandEmpty,
@@ -21,9 +21,15 @@ import {
   CommandList,
 } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import countries from "@/data/countries-client.json";
+import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 
 export default function Guesser() {
   const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
+
+  useLayoutEffect(() => {
+    polyfillCountryFlagEmojis();
+  }, []);
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -75,7 +81,7 @@ export default function Guesser() {
                   aria-expanded={isCountrySelectOpen}
                   className="w-[200px] justify-between"
                 >
-                  {"Select framework..."}
+                  {"Select a country..."}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -85,24 +91,18 @@ export default function Guesser() {
                   <CommandList>
                     <CommandEmpty>No framework found.</CommandEmpty>
                     <CommandGroup>
-                      {/* {frameworks.map((framework) => (
+                      {countries.map((country) => (
                         <CommandItem
-                          key={framework.value}
-                          value={framework.value}
-                          onSelect={(currentValue) => {
-                            setValue(currentValue === value ? "" : currentValue);
-                            setOpen(false);
-                          }}
+                          key={country.name}
+                          value={country.name}
+                          // onSelect={(currentValue) => {
+                          //   setValue(currentValue === value ? "" : currentValue);
+                          //   setOpen(false);
+                          // }}
                         >
-                          {framework.label}
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              value === framework.value ? "opacity-100" : "opacity-0"
-                            )}
-                          />
+                          {country.flag} {country.name}
                         </CommandItem>
-                      ))} */}
+                      ))}
                     </CommandGroup>
                   </CommandList>
                 </Command>
