@@ -21,11 +21,13 @@ import {
   CommandList,
 } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import countries from "@/data/countries-client.json";
+// import countries from "@/data/countries-client.json";
+import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 
 export default function Guesser() {
   const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
+  const [selectedCountry, setSelectedCountry] = useState<Maybe<string>>(undefined);
 
   useLayoutEffect(() => {
     polyfillCountryFlagEmojis();
@@ -81,7 +83,7 @@ export default function Guesser() {
                   aria-expanded={isCountrySelectOpen}
                   className="w-[200px] justify-between"
                 >
-                  {"Select a country..."}
+                  {selectedCountry ?? "Select a country..."}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -93,14 +95,14 @@ export default function Guesser() {
                     <CommandGroup>
                       {countries.map((country) => (
                         <CommandItem
-                          key={country.name}
-                          value={country.name}
-                          // onSelect={(currentValue) => {
-                          //   setValue(currentValue === value ? "" : currentValue);
-                          //   setOpen(false);
-                          // }}
+                          key={country.name.common}
+                          value={country.name.common}
+                          onSelect={(currentValue) => {
+                            setSelectedCountry(currentValue);
+                            setIsCountrySelectOpen(false);
+                          }}
                         >
-                          {country.flag} {country.name}
+                          {country.flag} {country.name.common}
                         </CommandItem>
                       ))}
                     </CommandGroup>
