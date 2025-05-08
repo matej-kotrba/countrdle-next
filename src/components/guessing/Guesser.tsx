@@ -21,13 +21,13 @@ import {
   CommandList,
 } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-// import countries from "@/data/countries-client.json";
-import countries from "@/data/countries.json";
+import countries from "@/data/countries-client.json";
+// import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 
 export default function Guesser() {
   const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
-  const [selectedCountry, setSelectedCountry] = useState<Maybe<string>>(undefined);
+  const [selectedCountryIndex, setSelectedCountryIndex] = useState<Maybe<number>>(undefined);
 
   useLayoutEffect(() => {
     polyfillCountryFlagEmojis();
@@ -83,7 +83,9 @@ export default function Guesser() {
                   aria-expanded={isCountrySelectOpen}
                   className="w-[200px] justify-between"
                 >
-                  {selectedCountry ?? "Select a country..."}
+                  {selectedCountryIndex !== undefined
+                    ? `${countries[selectedCountryIndex].flag} ${countries[selectedCountryIndex].name}`
+                    : "Select a country..."}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -95,14 +97,14 @@ export default function Guesser() {
                     <CommandGroup>
                       {countries.map((country) => (
                         <CommandItem
-                          key={country.name.common}
-                          value={country.name.common}
-                          onSelect={(currentValue) => {
-                            setSelectedCountry(currentValue);
+                          key={country.name}
+                          value={country.name}
+                          onSelect={() => {
+                            setSelectedCountryIndex(country.id);
                             setIsCountrySelectOpen(false);
                           }}
                         >
-                          {country.flag} {country.name.common}
+                          {country.flag} {country.name}
                         </CommandItem>
                       ))}
                     </CommandGroup>
