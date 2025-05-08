@@ -25,9 +25,47 @@ import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 
+// function logClientCountryJSON() {
+//   console.log(
+//     JSON.stringify(
+//       countries.map((country) => {
+//         return {
+//           name: country.name.common,
+//           flag: country.flag,
+//           latLng: country.latlng,
+//         };
+//       })
+//     )
+//   );
+// }
+
+const getRandomNewCountryIndexToGuess = () => Math.round(Math.random() * countries.length);
+
 export default function Guesser() {
   const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
   const [selectedCountryIndex, setSelectedCountryIndex] = useState<Maybe<number>>(undefined);
+
+  const [countryToGuessIndex, setCountryToGuessIndex] = useState<number>(
+    getRandomNewCountryIndexToGuess()
+  );
+  const [excludedCountriesIndexes, setExcludedCountriesIndexes] = useState<number[]>([]);
+
+  function handleSubmitGuess() {
+    if (selectedCountryIndex === undefined) return;
+
+    if (selectedCountryIndex === countryToGuessIndex) {
+      alert("You win");
+    } else {
+      setExcludedCountriesIndexes((old) => [...old, selectedCountryIndex]);
+      setSelectedCountryIndex(undefined);
+    }
+  }
+
+  function resetGame() {
+    setCountryToGuessIndex(getRandomNewCountryIndexToGuess());
+    setExcludedCountriesIndexes([]);
+    setSelectedCountryIndex(undefined);
+  }
 
   useLayoutEffect(() => {
     polyfillCountryFlagEmojis();
@@ -95,25 +133,27 @@ export default function Guesser() {
                   <CommandList>
                     <CommandEmpty>No framework found.</CommandEmpty>
                     <CommandGroup>
-                      {countries.map((country) => (
-                        <CommandItem
-                          key={country.name}
-                          value={country.name}
-                          onSelect={() => {
-                            setSelectedCountryIndex(country.id);
-                            setIsCountrySelectOpen(false);
-                          }}
-                        >
-                          {country.flag} {country.name}
-                        </CommandItem>
-                      ))}
+                      {countries
+                        .filter((_, countryIdx) => !excludedCountriesIndexes.includes(countryIdx))
+                        .map((country, countryIdx) => (
+                          <CommandItem
+                            key={country.name}
+                            value={country.name}
+                            onSelect={() => {
+                              setSelectedCountryIndex(countryIdx);
+                              setIsCountrySelectOpen(false);
+                            }}
+                          >
+                            {country.flag} {country.name}
+                          </CommandItem>
+                        ))}
                     </CommandGroup>
                   </CommandList>
                 </Command>
               </PopoverContent>
             </Popover>
             <Button
-              onClick={() => {}}
+              onClick={handleSubmitGuess}
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
             >
               Guess
@@ -129,7 +169,7 @@ export default function Guesser() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => {}}
+            onClick={resetGame}
             className="bg-slate-700 hover:bg-slate-600 text-slate-300 border-slate-600 flex items-center gap-1"
           >
             <RefreshCw className="h-4 w-4" />
