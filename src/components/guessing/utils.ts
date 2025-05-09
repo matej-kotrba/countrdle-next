@@ -28,70 +28,31 @@ function getCountryDistance(latLon1: LatLon, latLon2: LatLon) {
   return distance.toFixed(0);
 }
 
-function getCountryDirection(countryGuessAttemptLatLon: LatLon, countryToGuessLatLon: LatLon) {
+function getDirectionBetweenCountriesLatLonAsEmoji(
+  countryToGuessLatLon: LatLon,
+  countryGuessAttemptLatLon: LatLon
+) {
   const [lat1, lng1] = countryToGuessLatLon;
   const [lat2, lng2] = countryGuessAttemptLatLon;
 
-  const tolerance = 4;
-
   // Calculate the difference and create an arrow icon depending on it
-  const latDiff = lat1 - lat2;
-  const lngDiff = lng1 - lng2;
+  const x = lng2 - lng1;
+  const y = lat2 - lat1;
+  const c = Math.sqrt(x ** 2 + y ** 2);
 
-  const data = {
-    up: "⬆️",
-    leftup: "↖️",
-    rightup: "↗️",
-    down: "⬇️",
-    leftdown: "↙️",
-    rightdown: "↘️",
-    left: "⬅️",
-    right: "➡️",
-  };
+  const directions = ["➡️", "↗️", "⬆️", "↖️", "⬅️", "↙️", "⬇️", "↘️"];
 
-  let isTop = false;
-  let isLeft = false;
-  let isTween = false;
-  let nonTweenDirection: "width" | "height" = "width";
+  let angle = Math.atan2(y / c, x / c);
+  if (angle < 0) angle += 2 * Math.PI;
+  let n = 0;
+  let i = 0;
 
-  if (lngDiff < 0) {
-    isLeft = true;
-  }
-  if (latDiff > 0) {
-    isTop = true;
-  }
-  if (Math.abs(latDiff) <= tolerance && Math.abs(lngDiff) <= tolerance) {
-    isTween = true;
-  } else if (Math.abs(latDiff) > tolerance && Math.abs(lngDiff) > tolerance) {
-    isTween = true;
-  } else if (Math.abs(lngDiff) > tolerance) {
-    nonTweenDirection = "width";
-  } else {
-    nonTweenDirection = "height";
+  while (Math.abs(n - angle) > Math.PI / 4 / 2) {
+    n += Math.PI / 4;
+    i++;
   }
 
-  if (isTop && isLeft && isTween) {
-    return data.leftup;
-  }
-  if (isTop && isLeft && !isTween) {
-    return nonTweenDirection === "width" ? data.left : data.up;
-  }
-  if (isTop && !isLeft && isTween) {
-    return data.rightup;
-  }
-  if (isTop && !isLeft && !isTween) {
-    return nonTweenDirection === "width" ? data.right : data.up;
-  }
-  if (!isTop && isLeft && isTween) {
-    return data.leftdown;
-  }
-  if (!isTop && isLeft && !isTween) {
-    return nonTweenDirection === "width" ? data.left : data.down;
-  }
-  if (!isTop && !isLeft && isTween) {
-    return data.rightdown;
-  }
-  if (!isTop && !isLeft && !isTween) {
-    return nonTweenDirection === "width" ? data.right : data.down;
-  }
+  return directions[i];
 }
+
+export { getCountryDistance, getDirectionBetweenCountriesLatLonAsEmoji };
