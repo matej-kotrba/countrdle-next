@@ -30,3 +30,9 @@ export type Country = {
     1: number;
   };
 };
+
+export type CountryClient = {
+  name: string;
+  flag: string;
+  latLng: number[];
+};
