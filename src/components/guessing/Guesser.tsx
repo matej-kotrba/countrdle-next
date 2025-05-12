@@ -24,8 +24,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
-import GuessCountryAttempt from "./GuessedCountry";
 import { GuessContextProvider } from "./GuessContext";
+import { CountryClient } from "@/types/country";
+import { GuessedCountriesList } from "./GuessedCountry";
 
 // function logClientCountryJSON() {
 //   console.log(
@@ -74,7 +75,7 @@ export default function Guesser() {
   }, []);
 
   return (
-    <GuessContextProvider countriesProps={countries}>
+    <GuessContextProvider countriesProps={countries as CountryClient[]}>
       <div className="max-w-3xl mx-auto">
         <Card className="bg-slate-800 border-slate-700 shadow-xl">
           <CardHeader>
@@ -161,8 +162,8 @@ export default function Guesser() {
               <h3 className="text-lg font-medium flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-pink-400" />
                 <span>Clues</span>
-                <div></div>
               </h3>
+              <GuessedCountriesList />
             </div>
           </CardContent>
 
@@ -186,11 +187,3 @@ export default function Guesser() {
     </GuessContextProvider>
   );
 }
-
-// type GuessedCountriesListProps = {
-//   countriesIndexes: number[];
-// };
-
-// function GuessedCountriesList({ countriesIndexes }: GuessedCountriesListProps) {
-//   return countriesIndexes.map((index) => <GuessCountryAttempt />);
-// }

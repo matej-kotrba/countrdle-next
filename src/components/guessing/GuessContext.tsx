@@ -30,10 +30,10 @@ type GuessContextProviderProps = {
 export function GuessContextProvider({ children, countriesProps }: GuessContextProviderProps) {
   const [countries] = useState<TGuessContext["countries"]>(countriesProps);
   const [countryToGuessIndex, setCountryToGuessIndex] =
-    useState<TGuessContext["countryToGuessIndex"]>(undefined);
+    useState<TGuessContext["countryToGuessIndex"]>(7);
   const [guessedCountryIndexes, setGuessedCountryIndexes] = useState<
     TGuessContext["guessedCountryIndexes"]
-  >(new Set());
+  >(new Set<number>().add(3).add(84).add(124));
 
   const addGuessedCountry = useCallback((index: number) => {
     setGuessedCountryIndexes((old) => new Set(old).add(index));

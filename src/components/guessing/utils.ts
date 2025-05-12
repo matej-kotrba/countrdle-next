@@ -28,7 +28,7 @@ function getCountryDistance(latLon1: LatLon, latLon2: LatLon) {
   return distance.toFixed(0);
 }
 
-function getDirectionBetweenCountriesLatLonAsEmoji(
+function getDirectionBetweenCountriesAsEmoji(
   countryToGuessLatLon: LatLon,
   countryGuessAttemptLatLon: LatLon
 ) {
@@ -38,21 +38,14 @@ function getDirectionBetweenCountriesLatLonAsEmoji(
   // Calculate the difference and create an arrow icon depending on it
   const x = lng2 - lng1;
   const y = lat2 - lat1;
-  const c = Math.sqrt(x ** 2 + y ** 2);
 
   const directions = ["➡️", "↗️", "⬆️", "↖️", "⬅️", "↙️", "⬇️", "↘️"];
 
-  let angle = Math.atan2(y / c, x / c);
+  let angle = Math.atan2(y, x);
   if (angle < 0) angle += 2 * Math.PI;
-  let n = 0;
-  let i = 0;
-
-  while (Math.abs(n - angle) > Math.PI / 4 / 2) {
-    n += Math.PI / 4;
-    i++;
-  }
+  const i = Math.round(angle / (Math.PI / 4)) % 8;
 
   return directions[i];
 }
 
-export { getCountryDistance, getDirectionBetweenCountriesLatLonAsEmoji };
+export { getCountryDistance, getDirectionBetweenCountriesAsEmoji };

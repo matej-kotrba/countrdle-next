@@ -34,5 +34,5 @@ export type Country = {
 export type CountryClient = {
   name: string;
   flag: string;
-  latLng: number[];
+  latLng: [number, number];
 };
