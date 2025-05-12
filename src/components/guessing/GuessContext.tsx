@@ -1,17 +1,26 @@
 import { CountryClient } from "@/types/country";
-import { createContext, Dispatch, ReactNode, SetStateAction, use, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  use,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 type TGuessContext = {
   countries: CountryClient[];
   countryToGuessIndex: Maybe<number>;
   setCountryToGuessIndex: Dispatch<SetStateAction<Maybe<number>>>;
+  guessedCountryIndexes: Set<number>;
+
+  addGuessedCountry: (index: number) => void;
+  resetGuessedCountryIndexes: () => void;
 };
 
-const GuessContext = createContext<TGuessContext>({
-  countries: [],
-  countryToGuessIndex: undefined,
-  setCountryToGuessIndex: () => {},
-});
+const GuessContext = createContext<Maybe<TGuessContext>>(undefined);
 
 type GuessContextProviderProps = {
   children: ReactNode;
@@ -22,12 +31,37 @@ export function GuessContextProvider({ children, countriesProps }: GuessContextP
   const [countries] = useState<TGuessContext["countries"]>(countriesProps);
   const [countryToGuessIndex, setCountryToGuessIndex] =
     useState<TGuessContext["countryToGuessIndex"]>(undefined);
+  const [guessedCountryIndexes, setGuessedCountryIndexes] = useState<
+    TGuessContext["guessedCountryIndexes"]
+  >(new Set());
 
-  return (
-    <GuessContext.Provider value={{ countries, countryToGuessIndex, setCountryToGuessIndex }}>
-      {children}
-    </GuessContext.Provider>
+  const addGuessedCountry = useCallback((index: number) => {
+    setGuessedCountryIndexes((old) => new Set(old).add(index));
+  }, []);
+
+  const resetGuessedCountryIndexes = useCallback(() => {
+    setGuessedCountryIndexes(() => new Set());
+  }, []);
+
+  const providerData = useMemo(
+    () => ({
+      countries,
+      countryToGuessIndex,
+      guessedCountryIndexes,
+      setCountryToGuessIndex,
+      addGuessedCountry,
+      resetGuessedCountryIndexes,
+    }),
+    [
+      addGuessedCountry,
+      countries,
+      countryToGuessIndex,
+      guessedCountryIndexes,
+      resetGuessedCountryIndexes,
+    ]
   );
+
+  return <GuessContext.Provider value={providerData}>{children}</GuessContext.Provider>;
 }
 
 export function useGuessContext() {
