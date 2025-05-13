@@ -25,7 +25,7 @@ function getCountryDistance(latLon1: LatLon, latLon2: LatLon) {
   // Calculate the distance
   const distance: number = R * c;
 
-  return distance.toFixed(0);
+  return Math.round(distance);
 }
 
 function getDirectionBetweenCountriesAsEmoji(
