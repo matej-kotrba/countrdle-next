@@ -35,6 +35,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { useQuery } from "@tanstack/react-query";
 
 // function logClientCountryJSON() {
 //   console.log(
@@ -65,6 +66,13 @@ function Guesser() {
   const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
   const [selectedCountryIndex, setSelectedCountryIndex] = useState<Maybe<number>>(undefined);
 
+  const {} = useQuery({
+    enabled: false,
+    queryKey: [selectedCountryIndex],
+    queryFn: (value: number) => {},
+    initialData: {},
+  });
+
   function handleSubmitGuess() {
     if (selectedCountryIndex === undefined) return;
 
@@ -94,14 +102,22 @@ function Guesser() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <Dialog open>
+      <Dialog>
         <DialogTrigger>Open</DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>You win!</DialogTitle>
+            <DialogTitle>🥳 You win! 🥳</DialogTitle>
             <DialogDescription>
-              Congratulations, you managed to get the right answer{" "}
-              {countries[countryToGuessIndex!].name} in {guessedCountryIndexes.size} attempts.
+              {countryToGuessIndex && (
+                <>
+                  Congratulations, you managed to get the right answer{" "}
+                  <span className="font-bold text-foreground">
+                    {countries[countryToGuessIndex].name}
+                  </span>{" "}
+                  in <span className="font-bold text-foreground">{guessedCountryIndexes.size}</span>{" "}
+                  attempts.
+                </>
+              )}
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
@@ -186,13 +202,23 @@ function Guesser() {
             </Button>
           </div>
 
-          {/* Clues section */}
-          <div className="space-y-3">
-            <h3 className="text-lg font-medium flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-pink-400" />
-              <span>Clues</span>
-            </h3>
-            <GuessedCountriesList />
+          <div className="grid grid-cols-2">
+            {/* Attempts section */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-pink-400" />
+                <span>Attempts</span>
+              </h3>
+              <GuessedCountriesList />
+            </div>
+
+            {/* Clues section */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-pink-400" />
+                <span>Clues</span>
+              </h3>
+            </div>
           </div>
         </CardContent>
 
