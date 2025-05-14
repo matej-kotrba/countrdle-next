@@ -15,6 +15,8 @@ type TGuessContext = {
   countryToGuessIndex: Maybe<number>;
   setCountryToGuessIndex: Dispatch<SetStateAction<Maybe<number>>>;
   guessedCountryIndexes: Set<number>;
+  selectedCountryIndex: Maybe<number>;
+  setSelectedCountryIndex: Dispatch<SetStateAction<Maybe<number>>>;
 
   addGuessedCountry: (index: number) => void;
   resetGuessedCountryIndexes: () => void;
@@ -34,6 +36,7 @@ export function GuessContextProvider({ children, countriesProps }: GuessContextP
   const [guessedCountryIndexes, setGuessedCountryIndexes] = useState<
     TGuessContext["guessedCountryIndexes"]
   >(new Set<number>());
+  const [selectedCountryIndex, setSelectedCountryIndex] = useState<Maybe<number>>(undefined);
 
   const addGuessedCountry = useCallback((index: number) => {
     setGuessedCountryIndexes((old) => new Set(old).add(index));
@@ -51,6 +54,8 @@ export function GuessContextProvider({ children, countriesProps }: GuessContextP
       setCountryToGuessIndex,
       addGuessedCountry,
       resetGuessedCountryIndexes,
+      selectedCountryIndex,
+      setSelectedCountryIndex,
     }),
     [
       addGuessedCountry,
@@ -58,6 +63,8 @@ export function GuessContextProvider({ children, countriesProps }: GuessContextP
       countryToGuessIndex,
       guessedCountryIndexes,
       resetGuessedCountryIndexes,
+      selectedCountryIndex,
+      setSelectedCountryIndex,
     ]
   );
 

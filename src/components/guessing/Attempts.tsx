@@ -7,7 +7,7 @@ type Props = {
   guessedCountryIndex: number;
 };
 
-export function GuessCountryAttempt({ guessedCountryIndex }: Props) {
+export function Attempt({ guessedCountryIndex }: Props) {
   const { countries, countryToGuessIndex } = useGuessContext();
 
   if (!countryToGuessIndex) return <p>No country to guess</p>;
@@ -33,13 +33,13 @@ export function GuessCountryAttempt({ guessedCountryIndex }: Props) {
   );
 }
 
-export function GuessedCountriesList() {
+export function AttemptList() {
   const { guessedCountryIndexes } = useGuessContext();
 
   return (
     <div className="grid grid-cols-[repeat(3,max-content)] gap-1">
       {[...guessedCountryIndexes].map((guessedCountryIndex) => (
-        <GuessCountryAttempt guessedCountryIndex={guessedCountryIndex} key={guessedCountryIndex} />
+        <Attempt guessedCountryIndex={guessedCountryIndex} key={guessedCountryIndex} />
       ))}
     </div>
   );

@@ -1,3 +1,5 @@
+import { Country } from "@/types/country";
+
 const toRadians = (degree: number) => degree * (Math.PI / 180);
 
 type LatLon = [number, number];
@@ -48,4 +50,18 @@ function getDirectionBetweenCountriesAsEmoji(
   return directions[i];
 }
 
-export { getCountryDistance, getDirectionBetweenCountriesAsEmoji };
+function getClues(country: Country) {
+  const hints = [
+    { title: "Area", value: () => `${country.area.toLocaleString()} km²` },
+    { title: "Population", value: () => country.population.toLocaleString() },
+    { title: "Is Landlocked", value: () => (country.landlocked ? "Yes" : "No") },
+    { title: "Region", value: () => country.region },
+    { title: "Languages", value: () => Object.values(country.languages).join(", ") },
+    { title: "Capital", value: () => country.capital },
+    { title: "Flag", value: () => country.flag },
+  ];
+
+  return hints;
+}
+
+export { getCountryDistance, getDirectionBetweenCountriesAsEmoji, getClues };

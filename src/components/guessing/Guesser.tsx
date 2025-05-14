@@ -10,23 +10,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, MapPin, Flag, Clock, Award, RefreshCw, ChevronsUpDown } from "lucide-react";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "../ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Globe, MapPin, Flag, Clock, Award, RefreshCw } from "lucide-react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { GuessContextProvider, useGuessContext } from "./GuessContext";
 import { CountryClient } from "@/types/country";
-import { GuessedCountriesList } from "./GuessedCountry";
 import {
   Dialog,
   DialogContent,
@@ -35,8 +25,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getCountryDataByIndex } from "./actions";
+import { getClues } from "./utils";
+import { AttemptList } from "./Attempts";
+import GuessInput from "./GuessInput";
 
 // function logClientCountryJSON() {
 //   console.log(
@@ -62,10 +55,8 @@ function Guesser() {
     setCountryToGuessIndex,
     addGuessedCountry,
     resetGuessedCountryIndexes,
+    setSelectedCountryIndex,
   } = useGuessContext();
-
-  const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
-  const [selectedCountryIndex, setSelectedCountryIndex] = useState<Maybe<number>>(undefined);
 
   const { data: countryToGuessDetail } = useQuery({
     queryKey: ["country", countryToGuessIndex],
@@ -83,14 +74,12 @@ function Guesser() {
     refetchOnReconnect: false,
   });
 
-  function handleSubmitGuess() {
-    if (selectedCountryIndex === undefined) return;
-
-    if (selectedCountryIndex === countryToGuessIndex) {
+  function handleSubmitGuess(countryGuessIndex: number) {
+    if (countryGuessIndex === countryToGuessIndex) {
       alert("You win");
     }
 
-    addGuessedCountry(selectedCountryIndex);
+    addGuessedCountry(countryGuessIndex);
     setSelectedCountryIndex(undefined);
   }
 
@@ -99,6 +88,9 @@ function Guesser() {
     console.log(countries[random]);
     setCountryToGuessIndex(random);
     resetGuessedCountryIndexes();
+    addGuessedCountry(2);
+    addGuessedCountry(5);
+    addGuessedCountry(8);
     setSelectedCountryIndex(undefined);
   }, [countries, resetGuessedCountryIndexes, setCountryToGuessIndex]);
 
@@ -163,54 +155,7 @@ function Guesser() {
 
         <CardContent className="space-y-4">
           {/* Guess input */}
-          <div className="flex gap-2">
-            <Popover open={isCountrySelectOpen} onOpenChange={setIsCountrySelectOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={isCountrySelectOpen}
-                  className="w-64 justify-between"
-                  disabled={guessedCountryIndexes.has(countryToGuessIndex!)}
-                >
-                  {selectedCountryIndex !== undefined
-                    ? `${countries[selectedCountryIndex].flag} ${countries[selectedCountryIndex].name}`
-                    : "Select a country..."}
-                  <ChevronsUpDown className="opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-64 p-0">
-                <Command>
-                  <CommandInput placeholder="Search framework..." className="h-9" />
-                  <CommandList>
-                    <CommandEmpty>No framework found.</CommandEmpty>
-                    <CommandGroup>
-                      {countries.map((country, countryIdx) =>
-                        !guessedCountryIndexes.has(countryIdx) ? (
-                          <CommandItem
-                            key={country.name}
-                            value={country.name}
-                            onSelect={() => {
-                              setSelectedCountryIndex(countryIdx);
-                              setIsCountrySelectOpen(false);
-                            }}
-                          >
-                            {country.flag} {country.name}
-                          </CommandItem>
-                        ) : null
-                      )}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-            <Button
-              onClick={handleSubmitGuess}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-            >
-              Guess
-            </Button>
-          </div>
+          <GuessInput onSubmit={handleSubmitGuess} />
 
           <div className="grid grid-cols-2">
             {/* Attempts section */}
@@ -219,7 +164,7 @@ function Guesser() {
                 <MapPin className="h-5 w-5 text-pink-400" />
                 <span>Attempts</span>
               </h3>
-              <GuessedCountriesList />
+              <AttemptList />
             </div>
 
             {/* Clues section */}
@@ -228,6 +173,18 @@ function Guesser() {
                 <MapPin className="h-5 w-5 text-pink-400" />
                 <span>Clues</span>
               </h3>
+            </div>
+            <div>
+              {countryToGuessDetail &&
+                getClues(countryToGuessDetail)
+                  .slice(0, guessedCountryIndexes.size)
+                  .map((clue) => {
+                    return (
+                      <div key={clue.title}>
+                        {clue.title} {clue.value()}
+                      </div>
+                    );
+                  })}
             </div>
           </div>
         </CardContent>
