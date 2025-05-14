@@ -27,9 +27,10 @@ import {
 } from "../ui/dialog";
 import { useQuery } from "@tanstack/react-query";
 import { getCountryDataByIndex } from "./actions";
-import { getClues } from "./utils";
 import { AttemptList } from "./Attempts";
 import GuessInput from "./GuessInput";
+import { HintList } from "./Hints";
+import Show from "../logic/Show";
 
 // function logClientCountryJSON() {
 //   console.log(
@@ -175,16 +176,9 @@ function Guesser() {
               </h3>
             </div>
             <div>
-              {countryToGuessDetail &&
-                getClues(countryToGuessDetail)
-                  .slice(0, guessedCountryIndexes.size)
-                  .map((clue) => {
-                    return (
-                      <div key={clue.title}>
-                        {clue.title} {clue.value()}
-                      </div>
-                    );
-                  })}
+              <Show when={countryToGuessDetail}>
+                {(countryToGuessDetail) => <HintList countryToGuessDetail={countryToGuessDetail} />}
+              </Show>
             </div>
           </div>
         </CardContent>

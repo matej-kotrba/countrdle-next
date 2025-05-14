@@ -11,8 +11,6 @@ type FunctionProps<T = unknown> = {
 
 type Props<T> = BaseProps & FunctionProps<T>;
 
-// const a: FunctionProps = { when: "", children: <div></div> };
-
 export default function Show<T>({ when, children, fallback }: Props<T>) {
   return when
     ? typeof children === "function"
