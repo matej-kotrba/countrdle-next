@@ -35,7 +35,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { getCountryDataByIndex } from "./actions";
 
 // function logClientCountryJSON() {
 //   console.log(
@@ -66,11 +67,20 @@ function Guesser() {
   const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
   const [selectedCountryIndex, setSelectedCountryIndex] = useState<Maybe<number>>(undefined);
 
-  const {} = useQuery({
-    enabled: false,
-    queryKey: [selectedCountryIndex],
-    queryFn: (value: number) => {},
-    initialData: {},
+  const { data: countryToGuessDetail } = useQuery({
+    queryKey: ["country", countryToGuessIndex],
+    queryFn: async ({ queryKey }) => {
+      const countryIndex = queryKey[1] as number;
+
+      const data = await getCountryDataByIndex(countryIndex);
+      return data;
+    },
+    enabled: countryToGuessIndex !== undefined,
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchIntervalInBackground: false,
+    refetchOnReconnect: false,
   });
 
   function handleSubmitGuess() {
@@ -90,7 +100,7 @@ function Guesser() {
     setCountryToGuessIndex(random);
     resetGuessedCountryIndexes();
     setSelectedCountryIndex(undefined);
-  }, [resetGuessedCountryIndexes, setCountryToGuessIndex]);
+  }, [countries, resetGuessedCountryIndexes, setCountryToGuessIndex]);
 
   useLayoutEffect(() => {
     polyfillCountryFlagEmojis();
