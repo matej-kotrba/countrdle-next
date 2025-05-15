@@ -50,15 +50,17 @@ function getDirectionBetweenCountriesAsEmoji(
   return directions[i];
 }
 
+export type THint = { title: string; value: () => string; suffix?: string };
+
 function getClues(country: Country) {
-  const hints = [
-    { title: "Area", value: () => `${country.area.toLocaleString()} km²` },
-    { title: "Population", value: () => country.population.toLocaleString() },
-    { title: "Is Landlocked", value: () => (country.landlocked ? "Yes" : "No") },
-    { title: "Region", value: () => country.region },
-    { title: "Languages", value: () => Object.values(country.languages).join(", ") },
-    { title: "Capital", value: () => country.capital },
-    { title: "Flag", value: () => country.flag },
+  const hints: THint[] = [
+    { title: "🌍 Area", value: () => `${country.area.toLocaleString()}`, suffix: "km²" },
+    { title: "🏢 Population", value: () => country.population.toLocaleString() },
+    { title: "🔒 Is Landlocked", value: () => (country.landlocked ? "Yes" : "No") },
+    { title: "🌐 Region", value: () => country.region },
+    { title: "🔠 Languages", value: () => Object.values(country.languages).join(", ") },
+    { title: "🏛️ Capital", value: () => country.capital[0] },
+    { title: "🏳️ Flag", value: () => country.flag },
   ];
 
   return hints;

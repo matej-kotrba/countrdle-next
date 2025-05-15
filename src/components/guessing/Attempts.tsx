@@ -23,8 +23,8 @@ export function Attempt({ guessedCountryIndex }: Props) {
       <div className="bg-gray-700 px-2 py-1 rounded-lg">
         <span className="font-semibold">
           {getCountryDistance(countryToGuess.latLng, country.latLng).toLocaleString()}
-        </span>
-        <span className="text-white/50 ml-1">km</span>
+        </span>{" "}
+        <span className="text-white/50">km</span>
       </div>
       <span className="bg-gray-700 px-2 py-1 rounded-lg">
         {getDirectionBetweenCountriesAsEmoji(countryToGuess.latLng, country.latLng)}

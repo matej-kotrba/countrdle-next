@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, MapPin, Flag, Clock, Award, RefreshCw } from "lucide-react";
+import { Globe, MapPin, Flag, Clock, Award, RefreshCw, Lightbulb } from "lucide-react";
 import { ReactNode, useCallback, useEffect, useLayoutEffect } from "react";
 import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
@@ -105,47 +105,43 @@ function Guesser() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <Dialog>
+      <Dialog open>
         <DialogTrigger>Open</DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>🥳 You win! 🥳</DialogTitle>
             <DialogDescription>
               {countryToGuessIndex && (
-                <>
-                  Congratulations, you managed to get the right answer{" "}
-                  <span className="font-bold text-foreground">
+                <div className="break-before-left">
+                  <span className="font-bold">Congratulations</span>, you managed to get the right
+                  answer{" "}
+                  <span className="font-bold text-foreground whitespace-nowrap">
                     {countries[countryToGuessIndex].name}
                   </span>{" "}
-                  in <span className="font-bold text-foreground">{guessedCountryIndexes.size}</span>{" "}
-                  attempts.
-                </>
+                  in&nbsp;
+                  <span className="font-bold text-foreground">
+                    {guessedCountryIndexes.size}&nbsp;attempts.
+                  </span>
+                </div>
               )}
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <Card className="bg-slate-800 border-slate-700 shadow-xl">
+      <Card className="shadow-xl bg-slate-800 border-slate-700">
         <CardHeader>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Globe className="h-6 w-6 text-purple-400" />
+              <Globe className="w-6 h-6 text-purple-400" />
               <CardTitle className="text-2xl">Countrdle</CardTitle>
             </div>
             <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="bg-slate-700 text-purple-300 flex items-center gap-1"
+                className="flex items-center gap-1 text-purple-300 bg-slate-700"
               >
-                <Award className="h-3 w-3" />
-                <span>Score: {0}</span>
-              </Badge>
-              <Badge
-                variant="outline"
-                className="bg-slate-700 text-amber-300 flex items-center gap-1"
-              >
-                <Clock className="h-3 w-3" />
-                <span>{0}s</span>
+                <Award className="w-3 h-3" />
+                <span>Attempts: {guessedCountryIndexes.size}</span>
               </Badge>
             </div>
           </div>
@@ -164,18 +160,18 @@ function Guesser() {
           </div>
         </CardContent>
 
-        <CardFooter className="flex justify-between border-t border-slate-700 pt-4">
-          <div className="text-sm text-slate-400 flex items-center gap-1">
-            <Flag className="h-4 w-4" />
+        <CardFooter className="flex justify-between pt-4 border-t border-slate-700">
+          <div className="flex items-center gap-1 text-sm text-slate-400">
+            <Flag className="w-4 h-4" />
             <span>Attempts: {0}</span>
           </div>
           <Button
             variant="outline"
             size="sm"
             onClick={resetGame}
-            className="bg-slate-700 hover:bg-slate-600 text-slate-300 border-slate-600 flex items-center gap-1"
+            className="flex items-center gap-1 bg-slate-700 hover:bg-slate-600 text-slate-300 border-slate-600"
           >
-            <RefreshCw className="h-4 w-4" />
+            <RefreshCw className="w-4 h-4" />
             New Game
           </Button>
         </CardFooter>
@@ -192,7 +188,7 @@ type ListSectionProps = {
 function ListSection({ header, children }: ListSectionProps) {
   return (
     <div className="space-y-3">
-      <h3 className="text-lg font-medium flex items-center gap-2">{header}</h3>
+      <h3 className="flex items-center gap-2 text-lg font-medium">{header}</h3>
       {children}
     </div>
   );
@@ -203,8 +199,8 @@ function AttemptListSection() {
     <ListSection
       header={
         <>
-          <MapPin className="h-5 w-5 text-pink-400" />
-          <span>Clues</span>
+          <MapPin className="w-5 h-5 text-pink-400" />
+          <span>Attempts</span>
         </>
       }
     >
@@ -218,8 +214,8 @@ function HintListSection({ countryToGuessDetail }: { countryToGuessDetail: Maybe
     <ListSection
       header={
         <>
-          <MapPin className="h-5 w-5 text-pink-400" />
-          <span>Clues</span>
+          <Lightbulb className="w-5 h-5 text-pink-400" />
+          <span>Hints</span>
         </>
       }
     >
