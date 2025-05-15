@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Globe, MapPin, Flag, Clock, Award, RefreshCw } from "lucide-react";
-import { useCallback, useEffect, useLayoutEffect } from "react";
+import { ReactNode, useCallback, useEffect, useLayoutEffect } from "react";
 import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { GuessContextProvider, useGuessContext } from "./GuessContext";
-import { CountryClient } from "@/types/country";
+import { Country, CountryClient } from "@/types/country";
 import {
   Dialog,
   DialogContent,
@@ -159,27 +159,8 @@ function Guesser() {
           <GuessInput onSubmit={handleSubmitGuess} />
 
           <div className="grid grid-cols-2">
-            {/* Attempts section */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-medium flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-pink-400" />
-                <span>Attempts</span>
-              </h3>
-              <AttemptList />
-            </div>
-
-            {/* Clues section */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-medium flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-pink-400" />
-                <span>Clues</span>
-              </h3>
-            </div>
-            <div>
-              <Show when={countryToGuessDetail}>
-                {(countryToGuessDetail) => <HintList countryToGuessDetail={countryToGuessDetail} />}
-              </Show>
-            </div>
+            <AttemptListSection />
+            <HintListSection countryToGuessDetail={countryToGuessDetail} />
           </div>
         </CardContent>
 
@@ -200,6 +181,52 @@ function Guesser() {
         </CardFooter>
       </Card>
     </div>
+  );
+}
+
+type ListSectionProps = {
+  header: ReactNode;
+  children: ReactNode;
+};
+
+function ListSection({ header, children }: ListSectionProps) {
+  return (
+    <div className="space-y-3">
+      <h3 className="text-lg font-medium flex items-center gap-2">{header}</h3>
+      {children}
+    </div>
+  );
+}
+
+function AttemptListSection() {
+  return (
+    <ListSection
+      header={
+        <>
+          <MapPin className="h-5 w-5 text-pink-400" />
+          <span>Clues</span>
+        </>
+      }
+    >
+      <AttemptList />
+    </ListSection>
+  );
+}
+
+function HintListSection({ countryToGuessDetail }: { countryToGuessDetail: Maybe<Country> }) {
+  return (
+    <ListSection
+      header={
+        <>
+          <MapPin className="h-5 w-5 text-pink-400" />
+          <span>Clues</span>
+        </>
+      }
+    >
+      <Show when={countryToGuessDetail}>
+        {(countryToGuessDetail) => <HintList countryToGuessDetail={countryToGuessDetail} />}
+      </Show>
+    </ListSection>
   );
 }
 
