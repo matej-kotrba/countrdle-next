@@ -7,9 +7,9 @@ import Show from "../logic/Show";
 
 export function Hint({ hint }: { hint: THint }) {
   return (
-    <div className="grid grid-cols-subgrid col-span-3">
-      <span className="bg-gray-700 px-2 py-1 rounded-lg font-semibold">{hint.title}</span>
-      <div className="bg-gray-700 px-2 py-1 rounded-lg">
+    <div className="grid col-span-3 grid-cols-subgrid hover:*:bg-gray-600">
+      <span className="px-2 py-1 font-semibold bg-gray-700 rounded-lg">{hint.title}</span>
+      <div className="px-4 py-1 bg-gray-700 rounded-lg">
         <span className="font-semibold">{hint.value()}</span>{" "}
         <Show when={hint.suffix}>
           <span className="text-white/50">{hint.suffix}</span>
@@ -27,7 +27,7 @@ export function HintList({ countryToGuessDetail }: HintListProps) {
   const { guessedCountryIndexes } = useGuessContext();
 
   return (
-    <div className="grid grid-cols-[repeat(3,max-content)] gap-1">
+    <div className="grid grid-cols-[1fr_auto] gap-1">
       <Show when={countryToGuessDetail}>
         {(detail) =>
           getClues(detail)

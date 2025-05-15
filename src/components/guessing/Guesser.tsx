@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, MapPin, Flag, Clock, Award, RefreshCw, Lightbulb } from "lucide-react";
+import { Globe, MapPin, Flag, Award, RefreshCw, Lightbulb } from "lucide-react";
 import { ReactNode, useCallback, useEffect, useLayoutEffect } from "react";
 import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
@@ -90,8 +90,10 @@ function Guesser() {
     setCountryToGuessIndex(random);
     resetGuessedCountryIndexes();
     addGuessedCountry(2);
-    addGuessedCountry(5);
+    addGuessedCountry(1);
     addGuessedCountry(8);
+    addGuessedCountry(15);
+    addGuessedCountry(9);
     setSelectedCountryIndex(undefined);
   }, [countries, resetGuessedCountryIndexes, setCountryToGuessIndex]);
 
@@ -104,9 +106,8 @@ function Guesser() {
   }, [resetGame]);
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <Dialog open>
-        <DialogTrigger>Open</DialogTrigger>
+    <div className="w-full max-w-5xl mx-auto">
+      <Dialog>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>🥳 You win! 🥳</DialogTitle>
@@ -128,7 +129,13 @@ function Guesser() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <Card className="shadow-xl bg-slate-800 border-slate-700">
+      <Card
+        className="border-8 shadow-xl"
+        style={{
+          background:
+            "linear-gradient(var(--color-slate-800) 0 0) padding-box, linear-gradient(-45deg, var(--color-indigo-600), var(--color-orange-700)) border-box",
+        }}
+      >
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -154,22 +161,18 @@ function Guesser() {
           {/* Guess input */}
           <GuessInput onSubmit={handleSubmitGuess} />
 
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 gap-4">
             <AttemptListSection />
             <HintListSection countryToGuessDetail={countryToGuessDetail} />
           </div>
         </CardContent>
 
         <CardFooter className="flex justify-between pt-4 border-t border-slate-700">
-          <div className="flex items-center gap-1 text-sm text-slate-400">
-            <Flag className="w-4 h-4" />
-            <span>Attempts: {0}</span>
-          </div>
           <Button
             variant="outline"
             size="sm"
             onClick={resetGame}
-            className="flex items-center gap-1 bg-slate-700 hover:bg-slate-600 text-slate-300 border-slate-600"
+            className="flex items-center gap-1 ml-auto bg-slate-700 hover:bg-slate-600 text-slate-300 border-slate-600"
           >
             <RefreshCw className="w-4 h-4" />
             New Game
