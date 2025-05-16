@@ -1,4 +1,4 @@
-import { Heart, Github, Globe } from "lucide-react";
+import { Github, Globe } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
@@ -9,14 +9,14 @@ export function Footer() {
           <div className="flex space-x-3">
             <Link
               href="#"
-              className="text-white hover:text-[#ff47c7] transition-colors duration-200"
+              className="text-white hover:text-cyan-300 transition-colors duration-200"
               aria-label="GitHub"
             >
               <Github size={24} />
             </Link>
             <Link
               href="#"
-              className="text-white hover:text-[#00f2ea] transition-colors duration-200"
+              className="text-white hover:text-cyan-300 transition-colors duration-200"
               aria-label="Website"
             >
               <Globe size={24} />

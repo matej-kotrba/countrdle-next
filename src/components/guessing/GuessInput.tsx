@@ -77,9 +77,12 @@ function CountrySelector() {
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-0">
+      <PopoverContent className="duration-0 w-64 p-0 bg-black/10">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandInput
+            placeholder="Search country..."
+            className="h-9 placeholder:text-foreground"
+          />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
@@ -92,6 +95,7 @@ function CountrySelector() {
                       setSelectedCountryIndex(countryIdx);
                       setIsCountrySelectOpen(false);
                     }}
+                    className="data-[selected=true]:bg-white/10"
                   >
                     {country.flag} {country.name}
                   </CommandItem>

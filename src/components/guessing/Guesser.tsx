@@ -133,7 +133,7 @@ function Guesser() {
         className="border-8 shadow-xl"
         style={{
           background:
-            "linear-gradient(var(--color-slate-800) 0 0) padding-box, linear-gradient(-45deg, var(--color-indigo-600), var(--color-orange-700)) border-box",
+            "linear-gradient(rgba(255,255,255,0.05) 0 0) padding-box, linear-gradient(135deg, var(--color-indigo-600) -50%, var(--color-orange-700) 150%) padding-box, linear-gradient(-45deg, var(--color-indigo-600), var(--color-orange-700)) border-box",
         }}
       >
         <CardHeader>
@@ -152,7 +152,7 @@ function Guesser() {
               </Badge>
             </div>
           </div>
-          <CardDescription className="text-slate-400">
+          <CardDescription className="text-card-foreground">
             Use the clues to guess the country. More clues will be revealed after incorrect guesses.
           </CardDescription>
         </CardHeader>
@@ -167,12 +167,12 @@ function Guesser() {
           </div>
         </CardContent>
 
-        <CardFooter className="flex justify-between pt-4 border-t border-slate-700">
+        <CardFooter className="flex justify-between pt-4 border-t border-white/40">
           <Button
             variant="outline"
             size="sm"
             onClick={resetGame}
-            className="flex items-center gap-1 ml-auto bg-slate-700 hover:bg-slate-600 text-slate-300 border-slate-600"
+            className="flex items-center gap-1 ml-auto"
           >
             <RefreshCw className="w-4 h-4" />
             New Game
