@@ -7,9 +7,9 @@ import Show from "../logic/Show";
 
 export function Hint({ hint }: { hint: THint }) {
   return (
-    <div className="grid col-span-3 grid-cols-subgrid hover:*:bg-orange-500">
-      <span className="px-2 py-1 font-semibold bg-orange-500/60 rounded-lg">{hint.title}</span>
-      <div className="px-4 py-1 bg-orange-500/60 rounded-lg">
+    <div className="grid col-span-3 grid-cols-subgrid hover:*:bg-orange-500/60 duration-100">
+      <span className="px-2 py-1 font-semibold bg-orange-500/20 rounded-lg">{hint.title}</span>
+      <div className="px-4 py-1 bg-orange-500/20 rounded-lg">
         <span className="font-semibold">{hint.value()}</span>{" "}
         <Show when={hint.suffix}>
           <span className="text-white/50">{hint.suffix}</span>

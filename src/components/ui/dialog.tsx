@@ -54,7 +54,7 @@ function DialogContent({
         )}
         style={{
           background:
-            "linear-gradient(var(--background) 0 0) padding-box, linear-gradient(-45deg, red, blue) border-box",
+            "linear-gradient(rgba(0, 0, 0, 0.35) 0 0) padding-box, linear-gradient(-45deg, var(--color-orange-500), var(--color-indigo-600)) border-box",
         }}
         {...props}
       >

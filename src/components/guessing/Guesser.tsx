@@ -100,13 +100,13 @@ function Guesser() {
 
   return (
     <div className="w-full max-w-5xl mx-auto">
-      <Dialog>
+      <Dialog open>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>🥳 You win! 🥳</DialogTitle>
             <DialogDescription>
               {countryToGuessIndex && (
-                <div className="break-before-left">
+                <div className="break-before-left text-foreground">
                   <span className="font-bold">Congratulations</span>, you managed to get the right
                   answer{" "}
                   <span className="font-bold text-foreground whitespace-nowrap">
@@ -138,7 +138,7 @@ function Guesser() {
             <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="flex items-center gap-1 text-purple-300 bg-slate-700"
+                className="flex items-center gap-1 border-2 bg-white/5 shadow-md"
               >
                 <Award className="w-3 h-3" />
                 <span>Attempts: {guessedCountryIndexes.size}</span>
@@ -165,7 +165,7 @@ function Guesser() {
             variant="outline"
             size="sm"
             onClick={resetGame}
-            className="flex items-center gap-1 ml-auto"
+            className="flex items-center gap-1 ml-auto shadow-md"
           >
             <RefreshCw className="w-4 h-4" />
             New Game
