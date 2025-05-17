@@ -16,20 +16,20 @@ export function Attempt({ guessedCountryIndex }: Props) {
   const countryToGuess = countries[countryToGuessIndex];
 
   return (
-    <div className="grid col-span-3 overflow-hidden grid-cols-subgrid hover:*:bg-indigo-500">
+    <div className="grid col-span-3 overflow-hidden grid-cols-subgrid hover:*:bg-indigo-600">
       <span
-        className="px-2 py-1 overflow-hidden font-semibold bg-indigo-600 rounded-lg whitespace-nowrap overflow-ellipsis"
+        className="px-2 py-1 overflow-hidden font-semibold bg-indigo-600/70 rounded-lg whitespace-nowrap overflow-ellipsis"
         title={country.name}
       >
         {country.flag} {country.name}
       </span>
-      <div className="px-2 py-1 bg-indigo-600 rounded-lg">
+      <div className="px-2 py-1 bg-indigo-600/70 rounded-lg">
         <span className="font-semibold">
           {getCountryDistance(countryToGuess.latLng, country.latLng).toLocaleString()}
         </span>{" "}
         <span className="text-white/50">km</span>
       </div>
-      <span className="px-2 py-1 bg-indigo-600 rounded-lg">
+      <span className="px-2 py-1 bg-indigo-600/70 rounded-lg">
         {getDirectionBetweenCountriesAsEmoji(countryToGuess.latLng, country.latLng)}
       </span>
     </div>

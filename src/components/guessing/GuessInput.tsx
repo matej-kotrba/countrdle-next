@@ -30,23 +30,10 @@ export default function GuessInput({ onSubmit }: Props) {
   return (
     <div className="flex gap-2">
       <CountrySelector />
-      <SubmitButton handleSubmit={handleSubmit} />
+      <Button onClick={handleSubmit} variant="outline" size="default">
+        Guess
+      </Button>
     </div>
-  );
-}
-
-type ButtonProps = {
-  handleSubmit: () => void;
-};
-
-function SubmitButton({ handleSubmit }: ButtonProps) {
-  return (
-    <Button
-      onClick={handleSubmit}
-      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-    >
-      Guess
-    </Button>
   );
 }
 

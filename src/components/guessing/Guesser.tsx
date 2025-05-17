@@ -10,21 +10,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, MapPin, Flag, Award, RefreshCw, Lightbulb } from "lucide-react";
+import { Globe, MapPin, Award, RefreshCw, Lightbulb } from "lucide-react";
 import { ReactNode, useCallback, useEffect, useLayoutEffect } from "react";
 import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { GuessContextProvider, useGuessContext } from "./GuessContext";
 import { Country, CountryClient } from "@/types/country";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { useQuery } from "@tanstack/react-query";
 import { getCountryDataByIndex } from "./actions";
 import { AttemptList } from "./Attempts";
