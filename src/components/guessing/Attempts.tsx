@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useGuessContext } from "./GuessContext";
 import { getCountryDistance, getDirectionBetweenCountriesAsEmoji } from "./utils";
 
@@ -16,7 +17,7 @@ export function Attempt({ guessedCountryIndex }: Props) {
   const countryToGuess = countries[countryToGuessIndex];
 
   return (
-    <div className="grid col-span-3 overflow-hidden grid-cols-subgrid hover:*:bg-indigo-600/80 duration-100">
+    <div className="grid col-span-3 overflow-hidden grid-cols-subgrid hover:*:bg-indigo-600/80 duration-100 ">
       <span
         className="px-2 py-1 overflow-hidden font-semibold bg-indigo-600/40 rounded-lg whitespace-nowrap overflow-ellipsis"
         title={country.name}
@@ -38,9 +39,17 @@ export function Attempt({ guessedCountryIndex }: Props) {
 
 export function AttemptList() {
   const { guessedCountryIndexes } = useGuessContext();
+  const divElementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    divElementRef.current?.scrollBy({ top: 1000 });
+  }, [guessedCountryIndexes]);
 
   return (
-    <div className="grid grid-cols-[1fr_max-content_auto] gap-1">
+    <div
+      ref={divElementRef}
+      className="grid grid-cols-[1fr_max-content_auto] gap-1 max-h-[calc(32px*7+4px*6)] overflow-y-auto"
+    >
       {[...guessedCountryIndexes].map((guessedCountryIndex) => (
         <Attempt guessedCountryIndex={guessedCountryIndex} key={guessedCountryIndex} />
       ))}

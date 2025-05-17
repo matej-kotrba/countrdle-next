@@ -100,7 +100,7 @@ function Guesser() {
 
   return (
     <div className="w-full max-w-5xl mx-auto">
-      <Dialog open>
+      <Dialog>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>🥳 You win! 🥳</DialogTitle>
