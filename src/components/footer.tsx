@@ -1,4 +1,4 @@
-import { Github, Globe } from "lucide-react";
+import { Github } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
@@ -8,18 +8,11 @@ export function Footer() {
         <div className="flex items-center justify-between mt-3 md:mt-0">
           <div className="flex space-x-3">
             <Link
-              href="#"
+              href="https://github.com/matej-kotrba/countrdle-next"
               className="text-white hover:text-cyan-300 transition-colors duration-200"
               aria-label="GitHub"
             >
               <Github size={24} />
-            </Link>
-            <Link
-              href="#"
-              className="text-white hover:text-cyan-300 transition-colors duration-200"
-              aria-label="Website"
-            >
-              <Globe size={24} />
             </Link>
           </div>
           <div className="flex items-center text-white">
