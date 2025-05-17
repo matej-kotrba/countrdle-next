@@ -31,7 +31,7 @@ export function HintList({ countryToGuessDetail }: HintListProps) {
       <Show when={countryToGuessDetail}>
         {(detail) =>
           getClues(detail)
-            .slice(0, guessedCountryIndexes.size)
+            .slice(0, guessedCountryIndexes.size + 1)
             .map((hint) => <Hint key={hint.title} hint={hint} />)
         }
       </Show>

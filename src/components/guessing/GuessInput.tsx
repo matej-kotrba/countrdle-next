@@ -12,7 +12,7 @@ import {
   CommandList,
 } from "../ui/command";
 import { useGuessContext } from "./GuessContext";
-import { useState } from "react";
+import { ComponentRef, useRef, useState } from "react";
 
 type Props = {
   onSubmit: (countryGuessIndex: number) => void;
@@ -21,23 +21,33 @@ type Props = {
 export default function GuessInput({ onSubmit }: Props) {
   const { selectedCountryIndex } = useGuessContext();
 
+  const submitButtonRef = useRef<ComponentRef<"button">>(null);
+
   function handleSubmit() {
     if (selectedCountryIndex === undefined) return;
 
     onSubmit(selectedCountryIndex);
   }
 
+  function onCountrySelect() {
+    submitButtonRef.current?.focus();
+  }
+
   return (
     <div className="flex gap-2">
-      <CountrySelector />
-      <Button onClick={handleSubmit} variant="outline" size="default">
+      <CountrySelector onCountrySelect={onCountrySelect} />
+      <Button ref={submitButtonRef} onClick={handleSubmit} variant="outline" size="default">
         Guess
       </Button>
     </div>
   );
 }
 
-function CountrySelector() {
+type CountrySelectorProps = {
+  onCountrySelect?: () => void;
+};
+
+function CountrySelector({ onCountrySelect }: CountrySelectorProps) {
   const {
     countries,
     guessedCountryIndexes,
@@ -81,6 +91,7 @@ function CountrySelector() {
                     onSelect={() => {
                       setSelectedCountryIndex(countryIdx);
                       setIsCountrySelectOpen(false);
+                      onCountrySelect?.();
                     }}
                     className="data-[selected=true]:bg-white/10"
                   >

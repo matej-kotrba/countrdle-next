@@ -38,8 +38,8 @@ function getDirectionBetweenCountriesAsEmoji(
   const [lat2, lng2] = countryGuessAttemptLatLon;
 
   // Calculate the difference and create an arrow icon depending on it
-  const x = lng2 - lng1;
-  const y = lat2 - lat1;
+  const x = lng1 - lng2;
+  const y = lat1 - lat2;
 
   const directions = ["➡️", "↗️", "⬆️", "↖️", "⬅️", "↙️", "⬇️", "↘️"];
 

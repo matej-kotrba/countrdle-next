@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Globe, MapPin, Award, RefreshCw, Lightbulb } from "lucide-react";
-import { ReactNode, useCallback, useEffect, useLayoutEffect } from "react";
+import { ReactNode, useCallback, useEffect, useLayoutEffect, useState } from "react";
 import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
@@ -25,20 +25,6 @@ import GuessInput from "./GuessInput";
 import { HintList } from "./Hints";
 import Show from "../logic/Show";
 
-// function logClientCountryJSON() {
-//   console.log(
-//     JSON.stringify(
-//       countries.map((country) => {
-//         return {
-//           name: country.name.common,
-//           flag: country.flag,
-//           latLng: country.latlng,
-//         };
-//       })
-//     )
-//   );
-// }
-
 const getRandomNewCountryIndexToGuess = () => Math.round(Math.random() * countries.length);
 
 function Guesser() {
@@ -51,6 +37,8 @@ function Guesser() {
     resetGuessedCountryIndexes,
     setSelectedCountryIndex,
   } = useGuessContext();
+
+  const [isVictoryDialogOpen, setIsVictoryDialogOpen] = useState(false);
 
   const { data: countryToGuessDetail } = useQuery({
     queryKey: ["country", countryToGuessIndex],
@@ -70,7 +58,7 @@ function Guesser() {
 
   function handleSubmitGuess(countryGuessIndex: number) {
     if (countryGuessIndex === countryToGuessIndex) {
-      alert("You win");
+      setIsVictoryDialogOpen(true);
     }
 
     addGuessedCountry(countryGuessIndex);
@@ -78,17 +66,10 @@ function Guesser() {
   }
 
   const resetGame = useCallback(() => {
-    const random = getRandomNewCountryIndexToGuess();
-    console.log(countries[random]);
-    setCountryToGuessIndex(random);
+    setCountryToGuessIndex(getRandomNewCountryIndexToGuess());
     resetGuessedCountryIndexes();
-    addGuessedCountry(2);
-    addGuessedCountry(1);
-    addGuessedCountry(8);
-    addGuessedCountry(15);
-    addGuessedCountry(9);
     setSelectedCountryIndex(undefined);
-  }, [countries, resetGuessedCountryIndexes, setCountryToGuessIndex]);
+  }, [resetGuessedCountryIndexes, setCountryToGuessIndex, setSelectedCountryIndex]);
 
   useLayoutEffect(() => {
     polyfillCountryFlagEmojis();
@@ -100,13 +81,13 @@ function Guesser() {
 
   return (
     <div className="w-full max-w-5xl mx-auto">
-      <Dialog>
+      <Dialog open={isVictoryDialogOpen} onOpenChange={setIsVictoryDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>🥳 You win! 🥳</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="break-before-left text-foreground">
               {countryToGuessIndex && (
-                <div className="break-before-left text-foreground">
+                <>
                   <span className="font-bold">Congratulations</span>, you managed to get the right
                   answer{" "}
                   <span className="font-bold text-foreground whitespace-nowrap">
@@ -116,7 +97,7 @@ function Guesser() {
                   <span className="font-bold text-foreground">
                     {guessedCountryIndexes.size}&nbsp;attempts.
                   </span>
-                </div>
+                </>
               )}
             </DialogDescription>
           </DialogHeader>
