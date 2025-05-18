@@ -33,7 +33,7 @@ import { HintList } from "./components/Hints";
 
 const getRandomNewCountryIndexToGuess = () => Math.round(Math.random() * countries.length);
 
-function Guesser() {
+function Trivia() {
   const {
     countries,
     countryToGuessIndex,
@@ -209,10 +209,10 @@ function HintListSection({ countryToGuessDetail }: { countryToGuessDetail: Maybe
   );
 }
 
-export default function GuesserWrapper() {
+export default function TriviaWithContext() {
   return (
     <GuessContextProvider countriesProps={countries as CountryClient[]}>
-      <Guesser />
+      <Trivia />
     </GuessContextProvider>
   );
 }
