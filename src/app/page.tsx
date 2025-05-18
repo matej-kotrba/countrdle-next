@@ -1,9 +1,9 @@
-import Guesser from "@/components/guessing/Guesser";
+import GuesserWrapper from "@/features/trivia/Guesser";
 
 export default function Page() {
   return (
     <main className="grid h-full place-items-center">
-      <Guesser />
+      <GuesserWrapper />
     </main>
   );
 }

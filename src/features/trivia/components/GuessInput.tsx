@@ -1,8 +1,8 @@
 "use client";
 
 import { ChevronsUpDown } from "lucide-react";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../../../components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
 import {
   Command,
   CommandEmpty,
@@ -10,9 +10,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../ui/command";
-import { useGuessContext } from "./GuessContext";
+} from "../../../components/ui/command";
 import { ComponentRef, useRef, useState } from "react";
+import { useGuessContext } from "../ContextProvider";
 
 type Props = {
   onSubmit: (countryGuessIndex: number) => void;
@@ -58,6 +58,12 @@ function CountrySelector({ onCountrySelect }: CountrySelectorProps) {
 
   const [isCountrySelectOpen, setIsCountrySelectOpen] = useState<boolean>(false);
 
+  function handleCountrySelect(countryIndex: number) {
+    setSelectedCountryIndex(countryIndex);
+    setIsCountrySelectOpen(false);
+    onCountrySelect?.();
+  }
+
   return (
     <Popover open={isCountrySelectOpen} onOpenChange={setIsCountrySelectOpen}>
       <PopoverTrigger asChild>
@@ -88,11 +94,7 @@ function CountrySelector({ onCountrySelect }: CountrySelectorProps) {
                   <CommandItem
                     key={country.name}
                     value={country.name}
-                    onSelect={() => {
-                      setSelectedCountryIndex(countryIdx);
-                      setIsCountrySelectOpen(false);
-                      onCountrySelect?.();
-                    }}
+                    onSelect={() => handleCountrySelect(countryIdx)}
                     className="data-[selected=true]:bg-white/10"
                   >
                     {country.flag} {country.name}

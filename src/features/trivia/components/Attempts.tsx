@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useGuessContext } from "./GuessContext";
-import { getCountryDistance, getDirectionBetweenCountriesAsEmoji } from "./utils";
+import { getCountryDistance, getDirectionBetweenCountriesAsEmoji } from "../utils";
+import { useGuessContext } from "../ContextProvider";
 
 type Props = {
   guessedCountryIndex: number;
@@ -42,7 +42,7 @@ export function AttemptList() {
   const divElementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    divElementRef.current?.scrollBy({ top: 1000 });
+    divElementRef.current?.scrollBy({ top: 99999999 });
   }, [guessedCountryIndexes]);
 
   return (

@@ -15,15 +15,21 @@ import { ReactNode, useCallback, useEffect, useLayoutEffect, useState } from "re
 import countries from "@/data/countries-client.json";
 // import countries from "@/data/countries.json";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
-import { GuessContextProvider, useGuessContext } from "./GuessContext";
 import { Country, CountryClient } from "@/types/country";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../../components/ui/dialog";
 import { useQuery } from "@tanstack/react-query";
 import { getCountryDataByIndex } from "./actions";
-import { AttemptList } from "./Attempts";
-import GuessInput from "./GuessInput";
-import { HintList } from "./Hints";
-import Show from "../logic/Show";
+import { AttemptList } from "./components/Attempts";
+import Show from "../../components/logic/Show";
+import { GuessContextProvider, useGuessContext } from "./ContextProvider";
+import GuessInput from "./components/GuessInput";
+import { HintList } from "./components/Hints";
 
 const getRandomNewCountryIndexToGuess = () => Math.round(Math.random() * countries.length);
 

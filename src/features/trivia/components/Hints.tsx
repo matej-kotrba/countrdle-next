@@ -1,9 +1,9 @@
 "use client";
 
 import { Country } from "@/types/country";
-import { getClues, THint } from "./utils";
-import { useGuessContext } from "./GuessContext";
-import Show from "../logic/Show";
+import { getClues, THint } from "../utils";
+import Show from "../../../components/logic/Show";
+import { useGuessContext } from "../ContextProvider";
 
 export function Hint({ hint }: { hint: THint }) {
   return (
